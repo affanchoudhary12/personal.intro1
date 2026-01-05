@@ -1,0 +1,1031 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Affan's Universe</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Poppins:wght@300;400;600&family=Cormorant+Garamond:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #0a0512;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: linear-gradient(135deg, #0a0512 0%, #1a0a2e 25%, #2d1b3d 50%, #3d1a3d 75%, #0a0512 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Landing Page */
+        .landing {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .landing-name {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(3.5rem, 12vw, 7rem);
+            font-weight: 900;
+            background: linear-gradient(135deg, #ff6b9d 0%, #c44569 25%, #a8385d 50%, #ffa07a 75%, #ff6b9d 100%);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 25px;
+            animation: textGlow 3s ease-in-out infinite;
+            letter-spacing: 5px;
+            z-index: 2;
+        }
+
+        @keyframes textGlow {
+            0%, 100% { filter: drop-shadow(0 0 20px rgba(255, 107, 157, 0.6)); }
+            50% { filter: drop-shadow(0 0 40px rgba(196, 69, 105, 0.9)); }
+        }
+
+        .landing-tagline {
+            font-size: clamp(1rem, 3vw, 1.2rem);
+            color: #ffa07a;
+            margin-bottom: 50px;
+            letter-spacing: 3px;
+            opacity: 0;
+            animation: fadeInUp 1.2s 0.5s ease forwards;
+            z-index: 2;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .enter-btn {
+            background: rgba(255, 107, 157, 0.15);
+            border: 2px solid #ff6b9d;
+            color: #fff;
+            padding: 18px 55px;
+            font-size: 1.1rem;
+            letter-spacing: 4px;
+            cursor: pointer;
+            backdrop-filter: blur(15px);
+            transition: all 0.4s ease;
+            position: relative;
+            opacity: 0;
+            animation: fadeInUp 1.2s 1s ease forwards;
+            z-index: 2;
+            box-shadow: 0 0 30px rgba(255, 107, 157, 0.3);
+        }
+
+        .enter-btn:hover {
+            background: rgba(255, 107, 157, 0.25);
+            transform: translateY(-5px);
+            box-shadow: 0 20px 50px rgba(255, 107, 157, 0.5);
+        }
+
+        /* Main Container */
+        .main-container {
+            display: none;
+        }
+
+        .main-container.active {
+            display: block;
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 25px 50px;
+            background: rgba(10, 5, 18, 0.85);
+            backdrop-filter: blur(25px);
+            border-bottom: 1px solid rgba(255, 107, 157, 0.3);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            background: linear-gradient(135deg, #ff6b9d, #ffa07a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 900;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+            flex-wrap: wrap;
+        }
+
+        .nav-menu li {
+            color: #ffa07a;
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .nav-menu li:hover,
+        .nav-menu li.active {
+            color: #ff6b9d;
+        }
+
+        /* Pages */
+        .page {
+            min-height: 100vh;
+            padding: 130px 25px 60px;
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+            animation: pageSlide 0.8s ease;
+        }
+
+        @keyframes pageSlide {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .page-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.5rem, 8vw, 4.5rem);
+            background: linear-gradient(135deg, #ff6b9d 0%, #c44569 50%, #ffa07a 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 60px;
+            text-align: center;
+            font-weight: 900;
+        }
+
+        .content-card {
+            max-width: 750px;
+            margin: 0 auto 35px;
+            background: linear-gradient(135deg, rgba(255, 107, 157, 0.08), rgba(196, 69, 105, 0.05));
+            border: 1px solid rgba(255, 107, 157, 0.25);
+            border-radius: 20px;
+            padding: 40px;
+            backdrop-filter: blur(15px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .content-card p {
+            color: #ffc5d9;
+            line-height: 2;
+            font-size: 1.05rem;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        /* Timeline */
+        .timeline {
+            max-width: 750px;
+            margin: 60px auto;
+            position: relative;
+            padding-left: 50px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 20px;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background: linear-gradient(to bottom, #ff6b9d, #c44569, transparent);
+        }
+
+        .timeline-item {
+            margin-bottom: 60px;
+            position: relative;
+            background: linear-gradient(135deg, rgba(255, 107, 157, 0.06), rgba(196, 69, 105, 0.03));
+            border: 1px solid rgba(255, 107, 157, 0.2);
+            border-radius: 15px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -38px;
+            top: 30px;
+            width: 16px;
+            height: 16px;
+            background: #ff6b9d;
+            border-radius: 50%;
+            border: 4px solid #0a0512;
+            box-shadow: 0 0 25px rgba(255, 107, 157, 0.8);
+        }
+
+        .timeline-item h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.6rem;
+            color: #ff6b9d;
+            margin-bottom: 12px;
+        }
+
+        .timeline-item p {
+            color: #ffc5d9;
+            line-height: 1.8;
+            font-size: 1rem;
+        }
+
+        /* Dreams Grid */
+        .dreams-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            max-width: 1100px;
+            margin: 60px auto;
+        }
+
+        .dream-card {
+            background: linear-gradient(135deg, rgba(255, 107, 157, 0.08), rgba(196, 69, 105, 0.05));
+            border: 1px solid rgba(255, 107, 157, 0.25);
+            border-radius: 20px;
+            padding: 40px;
+            backdrop-filter: blur(15px);
+            text-align: center;
+            transition: all 0.4s ease;
+        }
+
+        .dream-card:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 20px 60px rgba(255, 107, 157, 0.3);
+        }
+
+        .dream-icon {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+        }
+
+        .dream-card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            color: #ff6b9d;
+            margin-bottom: 15px;
+        }
+
+        .dream-card p {
+            color: #ffc5d9;
+            line-height: 1.7;
+            font-size: 0.95rem;
+        }
+
+        /* Shayari */
+        .shayari-container {
+            max-width: 750px;
+            margin: 60px auto;
+        }
+
+        .shayari-card {
+            background: linear-gradient(135deg, rgba(255, 107, 157, 0.08), rgba(196, 69, 105, 0.05));
+            border-left: 4px solid #ff6b9d;
+            border-radius: 15px;
+            padding: 40px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(15px);
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.25rem;
+            line-height: 2.1;
+            color: #ffc5d9;
+            font-style: italic;
+            text-align: center;
+        }
+
+        /* Love Section */
+        .love-locked {
+            max-width: 650px;
+            margin: 120px auto;
+            text-align: center;
+        }
+
+        .lock-container {
+            background: linear-gradient(135deg, rgba(255, 107, 157, 0.08), rgba(196, 69, 105, 0.05));
+            border: 1px solid rgba(255, 107, 157, 0.3);
+            border-radius: 25px;
+            padding: 60px 40px;
+            backdrop-filter: blur(20px);
+        }
+
+        .lock-icon {
+            font-size: 5rem;
+            margin-bottom: 35px;
+            filter: drop-shadow(0 0 30px rgba(255, 107, 157, 0.6));
+        }
+
+        .lock-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, #ff6b9d, #ffa07a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+            font-weight: 900;
+        }
+
+        .lock-subtitle {
+            font-size: 1.1rem;
+            color: #ffc5d9;
+            margin-bottom: 50px;
+            line-height: 2;
+        }
+
+        .unlock-input {
+            background: rgba(255, 107, 157, 0.12);
+            border: 2px solid #ff6b9d;
+            color: #fff;
+            padding: 18px 40px;
+            font-size: 1.2rem;
+            text-align: center;
+            letter-spacing: 3px;
+            outline: none;
+            transition: all 0.3s ease;
+            width: 100%;
+            max-width: 400px;
+            border-radius: 12px;
+        }
+
+        .unlock-input::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .unlock-input:focus {
+            border-color: #ffa07a;
+            box-shadow: 0 0 40px rgba(255, 107, 157, 0.5);
+        }
+
+        /* Love Content */
+        .love-content {
+            display: none;
+            max-width: 750px;
+            margin: 0 auto;
+        }
+
+        .love-content.unlocked {
+            display: block;
+        }
+
+        .love-page {
+            display: none;
+        }
+
+        .love-page.active {
+            display: block;
+            animation: loveFade 1s ease;
+        }
+
+        @keyframes loveFade {
+            from { 
+                opacity: 0; 
+                transform: translateY(30px);
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0);
+            }
+        }
+
+        .love-card {
+            background: linear-gradient(135deg, rgba(255, 107, 157, 0.1), rgba(196, 69, 105, 0.06));
+            border: 1px solid rgba(255, 107, 157, 0.3);
+            border-radius: 20px;
+            padding: 50px;
+            margin-bottom: 35px;
+            backdrop-filter: blur(20px);
+            text-align: center;
+        }
+
+        .love-card h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            background: linear-gradient(135deg, #ff6b9d, #ffa07a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 30px;
+            font-weight: 900;
+        }
+
+        .love-card p {
+            color: #ffc5d9;
+            line-height: 2.3;
+            font-size: 1.1rem;
+            margin-bottom: 22px;
+            font-family: 'Cormorant Garamond', serif;
+        }
+
+        .love-nav {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-top: 50px;
+        }
+
+        .love-nav button {
+            background: linear-gradient(135deg, rgba(255, 107, 157, 0.15), rgba(196, 69, 105, 0.1));
+            border: 2px solid #ff6b9d;
+            color: #fff;
+            padding: 15px 40px;
+            font-size: 1rem;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 10px;
+        }
+
+        .love-nav button:hover:not(:disabled) {
+            background: linear-gradient(135deg, rgba(255, 107, 157, 0.25), rgba(196, 69, 105, 0.15));
+            transform: translateY(-3px);
+        }
+
+        .love-nav button:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .page-counter {
+            text-align: center;
+            color: #ffa07a;
+            font-size: 0.9rem;
+            margin-top: 20px;
+            letter-spacing: 2px;
+        }
+
+        /* Float Button */
+        .float-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #ff6b9d, #c44569);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 10px 35px rgba(255, 107, 157, 0.5);
+            transition: all 0.3s ease;
+            z-index: 999;
+            font-size: 1.5rem;
+        }
+
+        .float-btn:hover {
+            transform: scale(1.15) rotate(180deg);
+        }
+
+        /* Modal */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            padding: 20px;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, rgba(26, 10, 30, 0.95), rgba(45, 27, 61, 0.95));
+            border: 2px solid #ff6b9d;
+            padding: 50px;
+            border-radius: 20px;
+            max-width: 550px;
+            text-align: center;
+            position: relative;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            font-size: 2rem;
+            cursor: pointer;
+            color: #ffa07a;
+            transition: all 0.3s ease;
+        }
+
+        .close-modal:hover {
+            color: #ff6b9d;
+            transform: rotate(90deg);
+        }
+
+        .modal h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            background: linear-gradient(135deg, #ff6b9d, #ffa07a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 25px;
+            font-weight: 900;
+        }
+
+        .modal p {
+            color: #ffc5d9;
+            line-height: 2;
+            font-size: 1.05rem;
+        }
+
+        @media (max-width: 768px) {
+            .nav {
+                padding: 18px 20px;
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .nav-menu {
+                gap: 15px;
+                font-size: 0.75rem;
+            }
+
+            .timeline {
+                padding-left: 40px;
+            }
+
+            .dreams-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .love-nav {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation"></div>
+
+    <!-- Landing -->
+    <div class="landing" id="landing">
+        <h1 class="landing-name">MOHD AFFAN</h1>
+        <p class="landing-tagline">Tumhe yahan aane ki zarurat thi.</p>
+        <button class="enter-btn" id="enterBtn">DAAKHIL HO</button>
+    </div>
+
+    <!-- Main -->
+    <div class="main-container" id="mainContainer">
+        <nav class="nav">
+            <div class="nav-logo">AFFAN</div>
+            <ul class="nav-menu">
+                <li data-page="about" class="active">ABOUT</li>
+                <li data-page="journey">JOURNEY</li>
+                <li data-page="dreams">DREAMS</li>
+                <li data-page="thoughts">THOUGHTS</li>
+                <li data-page="love">LOVE</li>
+            </ul>
+        </nav>
+
+        <!-- About -->
+        <div class="page active" id="page-about">
+            <h2 class="page-title">📖 Mere Bare Mein</h2>
+            <div class="content-card">
+                <p>Welcome to my world!</p>
+                <p>Main ek dreamer hoon jo apni life ko apne hisaab se jeena pasand karta hai.</p>
+                <p>IT Support mein kaam karta hoon aur BCA kar raha hoon.</p>
+                <p>East Delhi se hoon. Introvert hoon.</p>
+                <p>Loyal hoon. Observant hoon. Overthinker hoon.</p>
+            </div>
+        </div>
+
+        <!-- Journey -->
+        <div class="page" id="page-journey">
+            <h2 class="page-title">🌙 Meri Journey</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <h3>Bachpan</h3>
+                    <p>Wo befikri, wo masti. Dreams dekhna tab se shuru ho gaya.</p>
+                </div>
+                <div class="timeline-item">
+                    <h3>Learning</h3>
+                    <p>Seekh raha hoon, gir raha hoon, khada ho raha hoon.</p>
+                </div>
+                <div class="timeline-item">
+                    <h3>Struggle</h3>
+                    <p>Khud ko dhundhna. Real strength silence mein hoti hai.</p>
+                </div>
+                <div class="timeline-item">
+                    <h3>Discovery</h3>
+                    <p>Emotional hoon, romantic hoon, loyal hoon.</p>
+                </div>
+                <div class="timeline-item">
+                    <h3>Future</h3>
+                    <p>Aasman ko chhuna hai. Stay tuned!</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dreams -->
+        <div class="page" id="page-dreams">
+            <h2 class="page-title">✨ Mere Sapne</h2>
+            <div class="dreams-grid">
+                <div class="dream-card">
+                    <div class="dream-icon">☕</div>
+                    <h3>Midnight Coffee</h3>
+                    <p>Raat ke 2 baje, coffee aur thoughts.</p>
+                </div>
+                <div class="dream-card">
+                    <div class="dream-icon">💻</div>
+                    <h3>Tech Dreams</h3>
+                    <p>Startup banana hai. Technology se duniya badalni hai.</p>
+                </div>
+                <div class="dream-card">
+                    <div class="dream-icon">🌃</div>
+                    <h3>Night Drives</h3>
+                    <p>Khaali roads, cold breeze. Freedom.</p>
+                </div>
+                <div class="dream-card">
+                    <div class="dream-icon">📚</div>
+                    <h3>Reading</h3>
+                    <p>Books aur shayari mein kho jana.</p>
+                </div>
+                <div class="dream-card">
+                    <div class="dream-icon">🎵</div>
+                    <h3>Music</h3>
+                    <p>Arijit, lofi beats. Music therapy.</p>
+                </div>
+                <div class="dream-card">
+                    <div class="dream-icon">🌌</div>
+                    <h3>Stargazing</h3>
+                    <p>Universe ke saamne sab chota hai.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Thoughts -->
+        <div class="page" id="page-thoughts">
+            <h2 class="page-title">💭 Jo Kabhi Nahi Kaha</h2>
+            <div class="shayari-container">
+                <div class="shayari-card">
+                    "Main thanda nahi hoon, bas emotions ko protect kar raha hoon."
+                </div>
+                <div class="shayari-card">
+                    "Har khamoshi mein ek kahani hai."
+                </div>
+                <div class="shayari-card">
+                    "Akele hone se dar nahi, akela feel hone se dar hai."
+                </div>
+                <div class="shayari-card">
+                    "Overthink isliye kyunki zyada care karta hoon."
+                </div>
+                <div class="shayari-card">
+                    "Ek baar dil mein basa liya, toh bhoolna mumkin nahi."
+                </div>
+            </div>
+        </div>
+
+        <!-- Love -->
+        <div class="page" id="page-love">
+            <h2 class="page-title">❤️ Dil Ki Baat</h2>
+            
+            <div class="love-locked" id="loveLocked">
+                <div class="lock-container">
+                    <div class="lock-icon">🔒</div>
+                    <h3 class="lock-title">Yeh Meri Love Life Hai</h3>
+                    <p class="lock-subtitle">Waise toh isme mere alawa koi entry hi nahi le payega.<br>Fir bhi main bana hi raha hoon.<br><br>Agar tum wo ho, toh naam likho.</p>
+                    <input type="text" class="unlock-input" id="loveUnlock" placeholder="Wo naam...">
+                </div>
+            </div>
+
+            <div class="love-content" id="loveContent">
+                <!-- Page 1 -->
+                <div class="love-page active">
+                    <div class="love-card">
+                        <h3>Pehli Mulaqat</h3>
+                        <p>Ilma.</p>
+                        <p>Ye naam sunte hi sab kuch badal gaya.</p>
+                        <p>Do mahine. Sirf do mahine.</p>
+                        <p>Par un do mahino mein jitna jeena seekha, utna puri zindagi mein nahi seekha.</p>
+                    </div>
+                </div>
+
+                <!-- Page 2 -->
+                <div class="love-page">
+                    <div class="love-card">
+                        <h3>Wo Ehsaas</h3>
+                        <p>Uski aankhon mein dekha toh apna aasra dekha.</p>
+                        <p>Uski baaton mein suna toh apna ghar mila.</p>
+                        <p>Pehli baar laga ki main ghar aa gaya hoon.</p>
+                        <p>Har lamha ek khubsurat khwaab tha.</p>
+                    </div>
+                </div>
+
+                <!-- Page 3 -->
+                <div class="love-page">
+                    <div class="love-card">
+                        <h3>Late Night Calls</h3>
+                        <p>Raat ke 2 baje phone pe baatein.</p>
+                        <p>Khatam hi nahi hoti thi.</p>
+                        <p>Uski awaaz sunke lagta tha sab theek hai.</p>
+                        <p>Wo pal, wo hansna, wo chup reh jana.</p>
+                    </div>
+                </div>
+
+                <!-- Page 4 -->
+                <div class="love-page">
+                    <div class="love-card">
+                        <h3>Coffee Dates</h3>
+                        <p>Sirf coffee nahi, do dilon ka milna tha.</p>
+                        <p>Uske saath baith ke lagta tha waqt ruk gaya hai.</p>
+                        <p>Har date ek naya ehsaas.</p>
+                        <p>Main khud ko bhool jata tha bas use dekhta tha.</p>
+                    </div>
+                </div>
+
+                <!-- Page 5 -->
+                <div class="love-page">
+                    <div class="love-card">
+                        <h3>Wo Smile</h3>
+                        <p>Jab wo muskurati thi.</p>
+                        <p>Lagta tha duniya ki sab khushiyan usi mein hain.</p>
+                        <p>Us smile ke liye kuch bhi kar sakta tha.</p>
+                        <p>Aaj bhi yaad aati hai wo smile.</p>
+                    </div>
+                </div>
+
+                <!-- Page 6 -->
+                <div class="love-page">
+                    <div class="love-card">
+                        <h3>Messages</h3>
+                        <p>Har subah uska message.</p>
+                        <p>Din ki shuruat usi se hoti thi.</p>
+                        <p>Raat ko bhi uske bina neend nahi aati thi.</p>
+                        <p>Ab wo messages nahi aate.</p>
+                    </div>
+                </div>
+
+                <!-- Page 7 -->
+                <div class="love-page">
+                    <div class="love-card">
+                        <h3>Jab Toot Gaya</h3>
+                        <p>Usne kaha - "It's over."</p>
+                        <p>Breakup.</p>
+                        <p>Main nahi toda. Main abhi bhi wahi hoon.</p>
+                        <p>Wo chali gayi, par yaadein nahi gayi.</p>
+                    </div>
+                </div>
+
+                <!-- Page 8 -->
+                <div class="love-page">
+                    <div class="love-card">
+                        <h3>Aaj Bhi</h3>
+                        <p>Main use abhi bhi utna hi pyaar karta hoon.</p>
+                        <p>Shayad wo nahi karti.</p>
+                        <p>Par mere dil mein uski jagah wahi hai.</p>
+                        <p>Kuch ehsaas waqt se nahi badalte.</p>
+                    </div>
+                </div>
+
+                <!-- Page 9 -->
+                <div class="love-page">
+                    <div class="love-card">
+                        <h3>Ek Taraffa Mohabbat</h3>
+                        <p>Ek taraffa mohabbat ki apni baat hoti hai.</p>
+                        <p>Jahan koi saath nahi hota, sirf ehsaas hota hai.</p>
+                        <p>Main use khone ke baad bhi nahi khona chahta.</p>
+                        <p>Yeh junoon hai ya paagalpan, pata nahi.</p>
+                    </div>
+                </div>
+
+                <!-- Page 10 -->
+                <div class="love-page">
+                    <div class="love-card">
+                        <h3>Raaton Ki Tanhai</h3>
+                        <p>Raat ko jab sab so jate hain.</p>
+                        <p>Tab uski yaadein aati hain.</p>
+                        <p>Coffee peete hue uske saath ki yaadein.</p>
+                        <p>Wo raatein ab nahi hai, par ehsaas abhi bhi hai.</p>
+                    </div>
+                </div>
+
+                <!-- Page 11 -->
+                <div class="love-page">
+                    <div class="love-card">
+                        <h3>Har Gaane Mein</h3>
+                        <p>Har romantic gaana uski yaad dilata hai.</p>
+                        <p>Arijit ke gaane sun ke wo chehra yaad aata hai.</p>
+                        <p>Music therapy ab pain therapy ban gayi hai.</p>
+                        <p>Par fir bhi sunna band nahi karta.</p>
+                    </div>
+                </div>
+
+                <!-- Page 12 -->
+                <div class="love-page">
+                    <div class="love-card">
+                        <h3>Khamoshi</h3>
+                        <p>Logo se nahi keh sakta.</p>
+                        <p>Yeh dard andar hi rakhta hoon.</p>
+                        <p>Muskurate hain chehre pe, toote hain dil se.</p>
+                        <p>Khamoshi mein hi sab kuch keh deta hoon.</p>
+                    </div>
+                </div>
+
+                <!-- Page 13 -->
+                <div class="love-page">
+                    <div class="love-card">
+                        <h3>Ab Kaun Hai</h3>
+                        <p>Ilma ke baad socha tha koi nahi hogi.</p>
+                        <p>Par zindagi ne ek aur mod dikha diya.</p>
+                        <p>Ab kisi aur ko pasand karta hoon.</p>
+                        <p>Par loyalty abhi bhi Ilma ke liye hai.</p>
+                    </div>
+                </div>
+
+                <!-- Page 14 -->
+                <div class="love-page">
+                    <div class="love-card">
+                        <h3>Dil Ki Sacchai</h3>
+                        <p>Main ek aurat ka insaan hoon.</p>
+                        <p>Jise chahta hoon, sirf use chahta hoon.</p>
+                        <p>Ye naya chapter hai, naya ehsaas hai.</p>
+                        <p>Par purana pyaar bhulaya nahi ja sakta.</p>
+                    </div>
+                </div>
+
+                <!-- Page 15 -->
+                <div class="love-page">
+                    <div class="love-card">
+                        <h3>Agar Wo Padh Rahi Hai</h3>
+                        <p>Ilma, agar tum yeh padh rahi ho...</p>
+                        <p>Main abhi bhi wahi hoon.</p>
+                        <p>Thoda badla hoon, thoda toot gaya hoon.</p>
+                        <p>Par dil mein tumhari jagah wahi hai.</p>
+                    </div>
+                </div>
+
+                <!-- Page 16 -->
+                <div class="love-page">
+                    <div class="love-card">
+                        <h3>Akhri Baat</h3>
+                        <p>Move on kar raha hoon, par bhool nahi raha.</p>
+                        <p>Kisi aur ko pasand kar raha hoon, par tumhe replace nahi kar raha.</p>
+                        <p>Tum tum ho. Wo wo hai.</p>
+                        <p>Darwaza band nahi hai. Kabhi lautna ho toh...</p>
+                    </div>
+                </div>
+
+                <div class="love-nav">
+                    <button id="lovePrev">⬅️ PEECHE</button>
+                    <button id="loveNext">AAGE ➡️</button>
+                </div>
+                <div class="page-counter" id="pageCounter">1 / 16</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Float Button -->
+    <div class="float-btn" id="floatBtn">💫</div>
+
+    <!-- Modal -->
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <span class="close-modal" id="closeModal">×</span>
+            <h3>Tumne Dhund Liya</h3>
+            <p>Kuch baatein chhupani padti hain.</p>
+            <p style="margin-top: 25px; font-style: italic; color: #ff6b9d;">"Zindagi mein kuch cheezein random nahi hoti. Tum yahan ho, matlab tumhe yahan hona tha."</p>
+        </div>
+    </div>
+
+    <script>
+        // Enter Button
+        document.getElementById('enterBtn').addEventListener('click', function() {
+            document.getElementById('landing').style.display = 'none';
+            document.getElementById('mainContainer').classList.add('active');
+        });
+
+        // Navigation
+        const navItems = document.querySelectorAll('.nav-menu li');
+        const pages = document.querySelectorAll('.page');
+
+        navItems.forEach(item => {
+            item.addEventListener('click', function() {
+                const pageId = this.getAttribute('data-page');
+                
+                navItems.forEach(nav => nav.classList.remove('active'));
+                this.classList.add('active');
+                
+                pages.forEach(page => page.classList.remove('active'));
+                document.getElementById('page-' + pageId).classList.add('active');
+                
+                window.scrollTo(0, 0);
+            });
+        });
+
+        // Love Unlock
+        const loveUnlock = document.getElementById('loveUnlock');
+        const loveLocked = document.getElementById('loveLocked');
+        const loveContent = document.getElementById('loveContent');
+
+        loveUnlock.addEventListener('input', function() {
+            if (this.value.toLowerCase().trim() === 'ilma') {
+                loveLocked.style.display = 'none';
+                loveContent.classList.add('unlocked');
+            }
+        });
+
+        // Love Pages Navigation
+        let currentLovePage = 1;
+        const totalLovePages = 16;
+        const lovePages = document.querySelectorAll('.love-page');
+        const lovePrevBtn = document.getElementById('lovePrev');
+        const loveNextBtn = document.getElementById('loveNext');
+        const pageCounter = document.getElementById('pageCounter');
+
+        function updateLovePage() {
+            lovePages.forEach(page => page.classList.remove('active'));
+            lovePages[currentLovePage - 1].classList.add('active');
+            
+            lovePrevBtn.disabled = currentLovePage === 1;
+            loveNextBtn.disabled = currentLovePage === totalLovePages;
+            
+            pageCounter.textContent = `${currentLovePage} / ${totalLovePages}`;
+            
+            window.scrollTo(0, 0);
+        }
+
+        lovePrevBtn.addEventListener('click', function() {
+            if (currentLovePage > 1) {
+                currentLovePage--;
+                updateLovePage();
+            }
+        });
+
+        loveNextBtn.addEventListener('click', function() {
+            if (currentLovePage < totalLovePages) {
+                currentLovePage++;
+                updateLovePage();
+            }
+        });
+
+        // Float Button & Modal
+        const floatBtn = document.getElementById('floatBtn');
+        const modal = document.getElementById('modal');
+        const closeModal = document.getElementById('closeModal');
+
+        floatBtn.addEventListener('click', () => {
+            modal.classList.add('active');
+        });
+
+        closeModal.addEventListener('click', () => {
+            modal.classList.remove('active');
+        });
+
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.classList.remove('active');
+            }
+        });
+
+        // Initialize
+        updateLovePage();
+    </script>
+</body>
+</html>
